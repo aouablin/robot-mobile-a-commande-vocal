@@ -41,6 +41,9 @@ Ce projet consiste en un robot intelligent commandé par reconnaissance vocale, 
 
 
 🖼️ **Interface de l'application mobile** 
+
+
+
 ![image](https://github.com/user-attachments/assets/0a6a6400-80de-46fe-bf43-7dc8095272a6)
 
 
