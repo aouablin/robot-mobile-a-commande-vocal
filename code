@@ -1,0 +1,88 @@
+#define OUT1 A4
+#define OUT2 A3
+#define OUT3 A2
+#define OUT4 A1
+#define OUT5 A0
+
+String voice;
+
+#define IN1 10
+#define IN2 9
+#define IN3 5
+#define IN4 4
+#define ENA 3
+#define ENB 6
+
+void setup () {
+    Serial.begin(9600); // start serial communication
+
+    // pinmode capteur
+    pinMode(OUT1, INPUT);
+    pinMode(OUT2, INPUT);
+    pinMode(OUT3, INPUT);
+    pinMode(OUT4, INPUT);
+    pinMode(OUT5, INPUT);
+
+    // les pin moteur driver
+    pinMode(ENA, OUTPUT);
+    pinMode(ENB, OUTPUT);
+    pinMode(IN1, OUTPUT);
+    pinMode(IN2, OUTPUT);
+    pinMode(IN3, OUTPUT);
+    pinMode(IN4, OUTPUT);
+}
+
+void loop() {
+    while (Serial.available()) {
+        delay(10);
+        char c = Serial.read();
+        if (c == '#') { break; }
+        voice += c;
+    }
+
+    if (voice.length() > 0) {
+        if (voice == "*marche") { avant(); }
+        else if (voice == "*stop") { arret(); }
+        else if (voice == "*droite") { tourner_a_droite(); }
+        else if (voice == "*gauche") { tourner_a_gauche(); }
+        delay(2000);
+    }
+
+    voice = "";
+}
+
+void avant () {
+    analogWrite(ENA, 100);
+    analogWrite(ENB, 100);
+    digitalWrite(IN1, HIGH);
+    digitalWrite(IN2, LOW);
+    digitalWrite(IN3, LOW);
+    digitalWrite(IN4, HIGH);
+}
+
+void tourner_a_droite () {
+    analogWrite(ENA, 100);
+    analogWrite(ENB, 100);
+    digitalWrite(IN1, LOW);
+    digitalWrite(IN2, LOW);
+    digitalWrite(IN3, LOW);
+    digitalWrite(IN4, HIGH);
+}
+
+void tourner_a_gauche () {
+    analogWrite(ENA, 100);
+    analogWrite(ENB, 100);
+    digitalWrite(IN1, HIGH);
+    digitalWrite(IN2, LOW);
+    digitalWrite(IN3, LOW);
+    digitalWrite(IN4, LOW);
+}
+
+void arret () {
+    analogWrite(ENA, 0);
+    analogWrite(ENB, 0);
+    digitalWrite(IN1, LOW);
+    digitalWrite(IN2, LOW);
+    digitalWrite(IN3, LOW);
+    digitalWrite(IN4, LOW);
+}
